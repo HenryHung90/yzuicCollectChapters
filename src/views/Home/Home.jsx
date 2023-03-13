@@ -1,9 +1,10 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import './Home.css'
 
 
 import Header from './Component/Header'
 import Scanner from './Component/Scanner'
+import GroupIcon from './Component/GroupIcon'
 
 const Home = ({ Logout, User }) => {
 
@@ -12,9 +13,10 @@ const Home = ({ Logout, User }) => {
 
     return (
         <div className='container homeContainer'>
-            {scanner === true && <Scanner scanResult={scanResult} setScanResult={setScanResult} setScanner={setScanner} />}
+            {scanner && <Scanner scanner={scanner} setScanResult={setScanResult} setScanner={setScanner} />}
             <Header Logout={Logout} User={User} setScanner={setScanner} />
             <p>{scanResult}</p>
+            <GroupIcon />
         </div>
     )
 }

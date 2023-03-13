@@ -16,9 +16,6 @@ import MenuItem from '@mui/material/MenuItem'
 import QrCodeIcon from '@mui/icons-material/QrCode';
 
 
-
-
-
 const Header = ({ Logout, User, setScanner }) => {
     const Nav = useNavigate()
 
