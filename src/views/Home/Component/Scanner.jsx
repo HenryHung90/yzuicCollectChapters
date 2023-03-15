@@ -37,6 +37,7 @@ const Scanner = ({ scanner, setScanResult, setScanner }) => {
                     height: '100vh',
                     backdropFilter: 'blur(5px)',
                     backgroundColor: 'rgba(0,0,0,0.5)',
+
                     zIndex: 1000,
                 }}
                 onClick={HandleCancel}
@@ -57,34 +58,48 @@ const Scanner = ({ scanner, setScanResult, setScanner }) => {
                         borderImageWidth: 2,
                         borderImageOutset: 0,
                         borderImageSource: "url(./img/common/outline.svg)",
+                        overflow: 'hidden',
                         filter: 'drop-shadow(0 0 5px rgb(28,233,254))'
                     }}
                 >
-
-                    <img src="./img/common/paintone.png" alt="PainTOne" style={{
-                        width: '75%',
-                        height: 340,
-                        objectFit: 'fill',
-                        position: 'fixed',
-                        left: '16.3%',
-                        zIndex: 1002,
-                    }} />
-                    <QrReader
-                        delay={1000}
-                        style={{
-                            height: '100%',
-                            width: '80%',
+                    <Container
+                        maxWidth="sm"
+                        sx={{
+                            margin: '0 auto',
+                            marginTop: '10%',
+                            width: 308,
+                            height: 280,
                             zIndex: 1001,
-                            borderRadius: '14px'
                         }}
-                        onResult={HandleScan}
-                        constraints={{
-                            facingMode: 'environment'
-                        }}
-                    />
+                    >
+                        <img src="./img/common/paintone.png" alt="PainTOne" style={{
+                            position: 'fixed',
+                            width: 308,
+                            height: 280,
+                            objectFit: 'cover',
+                            zIndex: 1002,
+                        }} />
+                        <Container
+                            maxWidth="sm"
+                            sx={{
+                                padding: 0,
+                                height: 280,
+                                overflow: 'hidden',
+                                transform: 'scale(1.25,1)',
+                            }}
+                        >
+                            <QrReader
+                                delay={1000}
+                                onResult={HandleScan}
+                                constraints={{
+                                    facingMode: 'environment'
+                                }}
+                            />
+                        </Container>
+                    </Container>
                 </Container>
             </Container>
-        </Fade>
+        </Fade >
     )
 }
 

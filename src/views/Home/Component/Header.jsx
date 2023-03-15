@@ -37,7 +37,7 @@ const Header = ({ Logout, User, setScanner }) => {
     };
 
     return (
-        <AppBar position="static" sx={{ backgroundColor: 'rgb(102,255,253)' }}>
+        <AppBar position="sticky" sx={{ backgroundColor: 'rgb(102,255,253)' }}>
             <Container maxWidth="sm" sx={{ backgroundColor: 'rgb(102,255,253)' }}>
                 {/* 電腦版 */}
                 <Toolbar disableGutters>

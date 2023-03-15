@@ -11,11 +11,13 @@ import Error from './views/Error/Error'
 import Home from './views/Home/Home'
 
 const App = () => {
-  const [User, setUser] = useState("");
-  const [IsAuth, setIsAuth] = useState(false);
+  const [User, setUser] = useState("")
+  const [IsAuth, setIsAuth] = useState(false)
+  const [loadingPage, setLoadingPage] = useState(true)
 
   useEffect(() => {
     firebase.auth().onAuthStateChanged((user) => {
+      setLoadingPage(false)
       if (user !== null) {
         console.log(`User ${user._delegate.displayName} Login`)
         if (user) {
@@ -34,8 +36,8 @@ const App = () => {
     return (
       <Router>
         <Routes>
-          <Route path='/Home' element={<Home Logout={() => { setIsAuth(false) }} User={User} />} />
-          <Route path='/' element={<Home Logout={() => { setIsAuth(false) }} User={User} />} />
+          <Route path='/Home' element={<Home Logout={() => { setIsAuth(false) }} User={User} loadingPage={loadingPage} />} />
+          <Route path='/' element={<Home Logout={() => { setIsAuth(false) }} User={User} loadingPage={loadingPage} />} />
           <Route path='*' element={<Error />} />
         </Routes>
       </Router>
@@ -45,8 +47,8 @@ const App = () => {
       <Router>
         <Routes>
           <Route path='/test' element={<Home Logout={() => { setIsAuth(false) }} User={User} />} />
-          <Route path='/Home' element={<Login Login={() => { setIsAuth(true) }} setUser={setUser} />} />
-          <Route path='/' element={<Login Login={() => { setIsAuth(true) }} setUser={setUser} />} />
+          <Route path='/Home' element={<Login Login={() => { setIsAuth(true) }} setUser={setUser} loadingPage={loadingPage} />} />
+          <Route path='/' element={<Login Login={() => { setIsAuth(true) }} setUser={setUser} loadingPage={loadingPage} />} />
           <Route path='*' element={<Error />} />
         </Routes>
       </Router>
