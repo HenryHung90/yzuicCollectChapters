@@ -23,7 +23,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build-deploy": "react-scripts build; firebase deploy; react-scripts start",
-    "push":"git add .; git commit -m 'daily update'; git push",
+    "push":"git add .; git commit -m 'daily update'; git push ; start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
