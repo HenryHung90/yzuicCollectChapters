@@ -143,7 +143,7 @@ const Home = ({ Logout, User }) => {
 
                 setOpen(true)
                 setTitle("歡迎")
-                setSubTitle("歡迎使用元智大學集章系統，可使用左上角掃瞄器進行集章唷！，（也可以直接使用手機掃描）")
+                setSubTitle("歡迎使用元智大學集章系統，可使用左上角掃瞄器進行集章唷！（也可以直接使用手機掃描）")
 
                 return new Array(21).fill(false)
             }
@@ -185,6 +185,8 @@ const Home = ({ Logout, User }) => {
 
     useEffect(e => {
         if (scanResult !== '') {
+            const splitScanResult = scanResult.split("=")[1]
+
             let isCurrect = false
             let TempScanData = [...scanData]
 
@@ -193,7 +195,7 @@ const Home = ({ Logout, User }) => {
                     return
                 }
 
-                if (value.uuid == scanData) {
+                if (value.uuid == splitScanResult) {
                     TempScanData[index] = true
                     isCurrect = true
 

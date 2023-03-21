@@ -34,8 +34,7 @@ const Scanner = ({ scanner, setScanResult, setScanner, setLoadingPage }) => {
                     height: '100vh',
                     backdropFilter: 'blur(5px)',
                     backgroundColor: 'rgba(0,0,0,0.5)',
-
-                    zIndex: 1000,
+                    zIndex: 1005,
                 }}
                 onClick={HandleCancel}
                 className="ScannerContainer"

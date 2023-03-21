@@ -1,4 +1,5 @@
 import Container from '@mui/material/Container'
+import Fade from '@mui/material/Fade'
 
 import ImageList from '@mui/material/ImageList'
 import ImageListItem from '@mui/material/ImageListItem'
@@ -21,16 +22,18 @@ const GroupIcon = ({ groupData, scanData }) => {
                         }}
                     >
                         {scanData[index] &&
-                            <img
-                                src='./img/common/ok.png'
-                                alt='Ok蹦'
-                                loading='lazy'
-                                style={{
-                                    position: 'absolute',
-                                    width: '100%',
-                                    zIndex: 1001,
-                                }}
-                            />
+                            <Fade in={scanData[index]}>
+                                <img
+                                    src='./img/common/ok.png'
+                                    alt='Ok蹦'
+                                    loading='lazy'
+                                    style={{
+                                        position: 'absolute',
+                                        width: '100%',
+                                        zIndex: 1001,
+                                    }}
+                                />
+                            </Fade>
                         }
                         <img
                             src={item.img}
