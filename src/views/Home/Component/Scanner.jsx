@@ -5,18 +5,15 @@ import '../Home.css'
 import Container from '@mui/material/Container'
 import Fade from '@mui/material/Fade'
 
-const Scanner = ({ scanner, setScanResult, setScanner }) => {
+const Scanner = ({ scanner, setScanResult, setScanner, setLoadingPage }) => {
 
     const [cameraStatus, setStatus] = useState(false)
 
     const HandleScan = (result, error) => {
-        // console.log('complete')
         setStatus(true)
         if (result !== undefined) {
             setScanResult(result.text)
             setScanner(false)
-        } else {
-            // console.log(result)
         }
     }
 
@@ -89,7 +86,7 @@ const Scanner = ({ scanner, setScanResult, setScanner }) => {
                             }}
                         >
                             <QrReader
-                                delay={1000}
+                                delay={300}
                                 onResult={HandleScan}
                                 constraints={{
                                     facingMode: 'environment'

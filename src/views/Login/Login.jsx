@@ -1,14 +1,25 @@
 import { useState, useEffect } from 'react'
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useSearchParams } from "react-router-dom"
 import { firebase } from "../../firebase/firebase"
 
-import Button from "@mui/material/Button";
-import GoogleIcon from "@mui/icons-material/Google";
+import Button from "@mui/material/Button"
+import GoogleIcon from "@mui/icons-material/Google"
+import { red } from '@mui/material/colors'
+import Container from '@mui/material/Container'
 
-import Container from '@mui/material/Container';
+import Loading from '../Loading/Loading'
+import Alert from '../Alert/Alert'
 
 const Login = ({ Login, setUser, loadingPage }) => {
     const Nav = useNavigate();
+    const [getParams, setParam] = useSearchParams()
+
+    const [open, setOpen] = useState(false);
+
+    useEffect(e => {
+        if (getParams.get('group') && !loadingPage) setOpen(true)
+    }, [loadingPage])
+
 
     const SignIpWithGoogle = () => {
         const google_Provider = new firebase.auth.GoogleAuthProvider();
@@ -23,10 +34,17 @@ const Login = ({ Login, setUser, loadingPage }) => {
                 })
                 Login()
                 Nav("/Home")
+                setParam({
+                    group: getParams.get('group') || ''
+                })
             })
             .catch((err) => {
                 console.log(err);
             });
+    };
+
+    const handleClose = () => {
+        setOpen(false);
     };
 
     return (
@@ -39,11 +57,11 @@ const Login = ({ Login, setUser, loadingPage }) => {
                 position: 'fixed',
                 width: '100vw',
                 height: '100vh',
-                backdropFilter: 'blur(5px)',
-                backgroundColor: 'rgba(0,0,0,0.5)',
                 zIndex: 1000,
             }}
         >
+            <Alert open={open} handleClose={handleClose} title={"尚未登入"} subTitle={"請先登入集章系統唷！"}/>
+            <Loading isOpen={loadingPage} />
             <Container
                 maxWidth="sm"
                 sx={{
@@ -53,68 +71,51 @@ const Login = ({ Login, setUser, loadingPage }) => {
                     height: 500,
                     marginTop: 10,
                     background: 'white',
-                    backgroundClip: 'padding-box',
+                    borderRadius: 10,
                     zIndex: 1001,
-                    padding: '10px 10px',
-                    border: '10px solid',
-                    borderWidth: '5.65px',
-                    borderRadius: '14px',
-                    borderImageSlice: 4,
-                    borderImageWidth: 2,
-                    borderImageOutset: 0,
-                    borderImageSource: "url(./img/common/outline.svg)",
                     overflow: 'hidden',
+                    backgroundColor: 'rgb(28,223,254)'
                 }}
             >
                 <Container
                     maxWidth="sm"
                     sx={{
-                        width: '80%',
+                        width: '100%',
                         padding: '0',
                         margin: '0 auto',
                         textAlign: 'center',
                     }}
                 >
-                    <img
-                        src='./img/common/ok.png'
-                        alt='Ok蹦'
-                        loading='lazy'
-                        style={{
-                            width: '30%',
-                            zIndex: 1001,
-                        }}
-                    />
                     <Container
                         sx={{
                             width: '100%',
                             padding: 0,
                             margin: 0,
-                            marginTop: '15%',
-                            color: 'rgb(28,223,254)',
+                            marginTop: '5%',
                         }}
                     >
-                        <h3>元智大學 資訊傳播學系</h3>
-                        <h5>112屆畢業展 - 成長Tone</h5>
-                        <h3 style={{ letterSpacing: 10, marginTop: 20 }}>線上集章系統</h3>
+                        <img src="./img/common/tone.png" width="70%" height="200px"></img>
+                        <h3 style={{ letterSpacing: 10, marginTop: 40, color: '#58595b' }}>線上集章系統</h3>
                     </Container>
                     <Button
                         id="LoginGoogle"
                         onClick={SignIpWithGoogle}
                         variant="contained"
-                        startIcon={<GoogleIcon />}
+                        startIcon={<GoogleIcon sx={{ color: red[600] }} />}
                         sx={{
-                            width: '100%',
+                            width: '80%',
                             height: 50,
-                            marginTop: '15%'
+                            marginTop: '10%',
+                            backgroundColor: 'white',
+                            color: '#58595b',
+                            borderRadius: 20
                         }}
                     >
                         使用 Google 帳戶登入
                     </Button>
                 </Container>
             </Container>
-        </Container>
-
-
+        </Container >
     )
 }
 

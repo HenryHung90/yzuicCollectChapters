@@ -5,7 +5,7 @@ import ImageListItem from '@mui/material/ImageListItem'
 import ImageListItemBar from '@mui/material/ImageListItemBar'
 import ListSubheader from '@mui/material/ListSubheader'
 
-const GroupIcon = ({ groupData }) => {
+const GroupIcon = ({ groupData, scanData }) => {
     return (
         <Container>
             <ImageList>
@@ -17,18 +17,21 @@ const GroupIcon = ({ groupData }) => {
                         key={index}
                         sx={{
                             width: 100,
+                            marginTop: 5
                         }}
                     >
-                        {/* <img
-                            src='./img/common/ok.png'
-                            alt='Ok蹦'
-                            loading='lazy'
-                            style={{
-                                position: 'absolute',
-                                width: '100%',
-                                zIndex: 1001,
-                            }}
-                        /> */}
+                        {scanData[index] &&
+                            <img
+                                src='./img/common/ok.png'
+                                alt='Ok蹦'
+                                loading='lazy'
+                                style={{
+                                    position: 'absolute',
+                                    width: '100%',
+                                    zIndex: 1001,
+                                }}
+                            />
+                        }
                         <img
                             src={item.img}
                             alt={item.title}
@@ -37,8 +40,11 @@ const GroupIcon = ({ groupData }) => {
                         <ImageListItemBar
                             title={item.title}
                             subtitle={item.author}
+                            position="below"
                             sx={{
-                                borderRadius: '10px',
+                                bottom: '-10',
+                                color: '#58595b',
+                                borderBottom: '1px solid #58595b'
                             }}
                         />
                     </ImageListItem>

@@ -23,9 +23,10 @@
   "scripts": {
     "start": "react-scripts start",
     "build-deploy": "react-scripts build; firebase deploy; react-scripts start",
-    "push-start": "git add .; git commit -m 'daily update'; git push ; react-scripts start",
-    "push": "git add .; git commit -m 'daily update'; git push ;",
+    "push-start": "git add . && git commit -m 'daily update' && git push && react-scripts start",
+    "push": "git add . && git commit -m 'daily update' && git push",
     "build": "react-scripts build",
+    "build-start": "react-scripts build && serve -s build -l 3000",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
