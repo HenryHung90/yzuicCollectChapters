@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react'
-import { useNavigate, useSearchParams } from 'react-router-dom'
-import { firebase } from '../../firebase/firebase'
+import { useSearchParams } from 'react-router-dom'
 import { getFirestore, setDoc, updateDoc, getDoc, doc } from 'firebase/firestore'
 import './Home.css'
 
 import Header from './Component/Header'
 import Scanner from './Component/Scanner'
 import GroupIcon from './Component/GroupIcon'
+import ProgressDashboard from './Component/ProgressDashboard'
 
 import Loading from '../Loading/Loading'
 import Alert from '../Alert/Alert'
@@ -112,7 +112,7 @@ const Home = ({ Logout, User }) => {
     // 各組資訊
     const [groupData, setGroupData] = useState([...itemData])
     // 確認是否有掃描
-    const [scanData, setScanData] = useState(new Array(21).fill(false))
+    const [isScanned, setisScanned] = useState(new Array(21).fill(false))
 
     // 是否 loading
     const [loadingPage, setLoadingPage] = useState(true)
@@ -132,7 +132,7 @@ const Home = ({ Logout, User }) => {
         getDoc(doc(db, "member", User.UserEmail)).then(response => {
             // 若已經進入過，就取得資訊後新增進入
             if (response.exists()) {
-                setScanData(response.data().GroupScan)
+                setisScanned(response.data().GroupScan)
                 return response.data().GroupScan
             } else {
                 // 若無則設定新的檔案進入
@@ -156,7 +156,7 @@ const Home = ({ Logout, User }) => {
                         return
                     }
 
-                    if (value.uuid == group) {
+                    if (value.uuid === group) {
                         GroupScan[index] = true
                         isCurrect = true
 
@@ -164,12 +164,12 @@ const Home = ({ Logout, User }) => {
                         setTitle("通知")
                         setSubTitle(`掃描成功！${value.title}`)
 
-                        getParams.set({ group: '' })
+                        setParams({ group: '' })
 
                         updateDoc(doc(db, "member", User.UserEmail), {
                             GroupScan: GroupScan
                         })
-                        setScanData(GroupScan)
+                        setisScanned(GroupScan)
                         return
                     }
                 })
@@ -188,15 +188,15 @@ const Home = ({ Logout, User }) => {
             const splitScanResult = scanResult.split("=")[1]
 
             let isCurrect = false
-            let TempScanData = [...scanData]
+            let TempisScanned = [...isScanned]
 
             groupData.forEach((value, index) => {
                 if (isCurrect) {
                     return
                 }
 
-                if (value.uuid == splitScanResult) {
-                    TempScanData[index] = true
+                if (value.uuid === splitScanResult) {
+                    TempisScanned[index] = true
                     isCurrect = true
 
                     setOpen(true)
@@ -204,9 +204,9 @@ const Home = ({ Logout, User }) => {
                     setSubTitle(`掃描成功！${value.title}`)
 
                     updateDoc(doc(db, "member", User.UserEmail), {
-                        GroupScan: TempScanData
+                        GroupScan: TempisScanned
                     })
-                    setScanData(TempScanData)
+                    setisScanned(TempisScanned)
                 }
             })
             if (!isCurrect) {
@@ -228,7 +228,8 @@ const Home = ({ Logout, User }) => {
             <div className='container homeContainer'>
                 {scanner && <Scanner scanner={scanner} setScanResult={setScanResult} setScanner={setScanner} />}
                 <Header Logout={Logout} User={User} setScanner={setScanner} />
-                <GroupIcon groupData={groupData} scanData={scanData} />
+                <ProgressDashboard groupData={groupData} isScanned={isScanned} loadingPage={loadingPage} User={User} />
+                <GroupIcon groupData={groupData} isScanned={isScanned} />
             </div>
         </>
 

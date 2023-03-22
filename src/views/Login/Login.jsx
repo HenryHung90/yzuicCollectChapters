@@ -94,7 +94,7 @@ const Login = ({ Login, setUser, loadingPage }) => {
                             marginTop: '5%',
                         }}
                     >
-                        <img src="./img/common/tone.png" width="70%" height="200px"></img>
+                        <img src="./img/common/tone.png" alt="Tone_Logo" width="70%" height="200px"></img>
                         <h3 style={{ letterSpacing: 10, marginTop: 40, color: '#58595b' }}>線上集章系統</h3>
                     </Container>
                     <Button

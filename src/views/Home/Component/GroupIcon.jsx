@@ -1,17 +1,24 @@
-import Container from '@mui/material/Container'
-import Fade from '@mui/material/Fade'
+import { useState } from 'react'
 
-import ImageList from '@mui/material/ImageList'
-import ImageListItem from '@mui/material/ImageListItem'
-import ImageListItemBar from '@mui/material/ImageListItemBar'
-import ListSubheader from '@mui/material/ListSubheader'
+import {
+    Container,
+    Fade,
+    ImageList,
+    ImageListItem,
+    ImageListItemBar,
+    ListSubheader,
+    Skeleton,
+} from '@mui/material'
 
-const GroupIcon = ({ groupData, scanData }) => {
+const GroupIcon = ({ groupData, isScanned }) => {
+
+    const [loadingComplete, setLoadingComplete] = useState(new Array(groupData.length).fill(false))
+
     return (
         <Container>
             <ImageList>
                 <ImageListItem key="Subheader" cols={3}>
-                    <ListSubheader component="div">進度</ListSubheader>
+                    <ListSubheader component="div">集章欄</ListSubheader>
                 </ImageListItem>
                 {groupData.map((item, index) => (
                     <ImageListItem
@@ -21,8 +28,8 @@ const GroupIcon = ({ groupData, scanData }) => {
                             marginTop: 5
                         }}
                     >
-                        {scanData[index] &&
-                            <Fade in={scanData[index]}>
+                        {isScanned[index] &&
+                            <Fade in={isScanned[index]}>
                                 <img
                                     src='./img/common/ok.png'
                                     alt='Ok蹦'
@@ -32,14 +39,33 @@ const GroupIcon = ({ groupData, scanData }) => {
                                         width: '100%',
                                         zIndex: 1001,
                                     }}
+                                    onLoad={() => {
+                                        setLoadingComplete(new Array(groupData.length).fill(true))
+                                    }}
                                 />
                             </Fade>
                         }
                         <img
                             src={item.img}
                             alt={item.title}
-                            loading="lazy"
+                            style={{ display: 'none' }}
+                            onLoad={() => {
+                                let tempLoad = loadingComplete
+                                tempLoad[index] = true
+                                setLoadingComplete(tempLoad)
+                            }}
                         />
+                        {
+
+                            loadingComplete[index] ?
+                                (<img
+                                    src={item.img}
+                                    alt={item.title}
+                                />)
+                                :
+                                (<Skeleton variant="circular" width={'100%'} height={100} />)
+                        }
+
                         <ImageListItemBar
                             title={item.title}
                             subtitle={item.author}
