@@ -2,8 +2,7 @@ import { useState } from 'react'
 import { QrReader } from 'react-qr-reader'
 import '../Home.css'
 
-import Container from '@mui/material/Container'
-import Fade from '@mui/material/Fade'
+import { Container, Fade } from '@mui/material'
 
 const Scanner = ({ scanner, setScanResult, setScanner, setLoadingPage }) => {
 
@@ -85,7 +84,7 @@ const Scanner = ({ scanner, setScanResult, setScanner, setLoadingPage }) => {
                             }}
                         >
                             <QrReader
-                                delay={300}
+                                delay={1}
                                 onResult={HandleScan}
                                 constraints={{
                                     facingMode: 'environment'

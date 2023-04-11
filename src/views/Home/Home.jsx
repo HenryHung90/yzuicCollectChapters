@@ -129,7 +129,8 @@ const Home = ({ Logout, User }) => {
     useEffect(e => {
         const group = getParams.get('group')
 
-        getDoc(doc(db, "member", User.UserEmail)).then(response => {
+        getDoc(doc(db, "member", User.UserEmail))
+        .then(response => {
             // 若已經進入過，就取得資訊後新增進入
             if (response.exists()) {
                 setisScanned(response.data().GroupScan)
@@ -201,7 +202,11 @@ const Home = ({ Logout, User }) => {
 
                     setOpen(true)
                     setTitle("通知")
-                    setSubTitle(`掃描成功！${value.title}`)
+                    if (isScanned[index]) {
+                        setSubTitle(`已經掃描過囉！`)
+                    } else {
+                        setSubTitle(`掃描成功！${value.title}`)
+                    }
 
                     updateDoc(doc(db, "member", User.UserEmail), {
                         GroupScan: TempisScanned
@@ -228,7 +233,15 @@ const Home = ({ Logout, User }) => {
             <div className='container homeContainer'>
                 {scanner && <Scanner scanner={scanner} setScanResult={setScanResult} setScanner={setScanner} />}
                 <Header Logout={Logout} User={User} setScanner={setScanner} />
-                <ProgressDashboard groupData={groupData} isScanned={isScanned} loadingPage={loadingPage} User={User} />
+                <ProgressDashboard
+                    groupData={groupData}
+                    isScanned={isScanned}
+                    loadingPage={loadingPage}
+                    User={User} 
+                    setOpen={setOpen}
+                    setTitle={setTitle}
+                    setSubTitle={setSubTitle}
+                    />
                 <GroupIcon groupData={groupData} isScanned={isScanned} />
             </div>
         </>
